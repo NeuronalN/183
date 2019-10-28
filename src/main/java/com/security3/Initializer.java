@@ -1,5 +1,5 @@
 package com.security3;
-
+/*
 import com.security3.model.Event;
 import com.security3.model.Group;
 import com.security3.model.GroupRepository;
@@ -36,3 +36,4 @@ class Initializer implements CommandLineRunner {
         repository.findAll().forEach(System.out::println);
     }
 }
+*/
