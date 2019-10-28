@@ -19,8 +19,6 @@ public class Group {
     @GeneratedValue
     private Long id;
     @NonNull
-    private String name;
-    private String address;
     private String city;
     private String stateOrProvince;
     private String country;
