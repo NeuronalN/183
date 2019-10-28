@@ -1,41 +1,19 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './css/App.css';
+import Home from './home/Home';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import GroupList from './groupList/GroupList';
 
 class App extends Component {
-    state = {
-        isLoading: true,
-        groups: []
-    };
-
-    async componentDidMount() {
-        const response = await fetch('/api/groups');
-        const body = await response.json();
-        this.setState({groups: body, isLoading: false});
-    }
-
     render() {
-        const {groups, isLoading} = this.state;
-
-        if (isLoading) {
-            return <p>Loading...</p>;
-        }
-
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <div className="App-intro">
-                        <h2>Tour List</h2>
-                        {groups.map(group =>
-                            <div key={group.id}>
-                                {group.name}
-                            </div>
-                        )}
-                    </div>
-                </header>
-            </div>
-        );
+            <Router>
+                <Switch>
+                    <Route path='/' exact={true} component={Home}/>
+                    <Route path='/groups' exact={true} component={GroupList}/>
+                </Switch>
+            </Router>
+        )
     }
 }
 

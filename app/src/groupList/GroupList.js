@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, ButtonGroup, Container, Table} from 'reactstrap';
-import AppNavbar from './AppNavbar';
+import Navbar from '../navbar/Navbar';
 import {Link} from 'react-router-dom';
 
 class GroupList extends Component {
@@ -62,7 +62,7 @@ class GroupList extends Component {
 
         return (
             <div>
-                <AppNavbar/>
+                <Navbar/>
                 <Container fluid>
                     <div className="float-right">
                         <Button color="success" tag={Link} to="/groups/new">Add Group</Button>
