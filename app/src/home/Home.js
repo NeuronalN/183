@@ -57,7 +57,7 @@ class Home extends Component {
 
         const button = this.state.isAuthenticated ?
             <div>
-                <Button color="link"><Link to="/groups">Manage JUG Tour</Link></Button>
+                <Button color="link"><Link to="/groups">Manage your Tour</Link></Button>
                 <br/>
                 <Button color="link" onClick={this.logout}>Logout</Button>
             </div> :
