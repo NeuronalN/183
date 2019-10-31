@@ -23,6 +23,7 @@ public class Event {
     private Long id;
     private String title;
     private String description;
+    private String dateOfCreation;
     @ManyToMany
     private Set<User> attendees;
 }

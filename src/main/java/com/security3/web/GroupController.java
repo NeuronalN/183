@@ -25,7 +25,6 @@ class GroupController {
     private GroupRepository groupRepository;
     private UserRepository userRepository;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    private LocalDateTime now = LocalDateTime.now();
 
     public GroupController(GroupRepository groupRepository, UserRepository userRepository) {
         this.groupRepository = groupRepository;
@@ -55,12 +54,13 @@ class GroupController {
         Optional<User> user = userRepository.findById(userId);
         group.setUser(user.orElse(new User(userId,
                 details.get("name").toString(), details.get("email").toString())));
+        LocalDateTime now = LocalDateTime.now();
 
         Event e = Event.builder().title(group.getCountry())
                 .description("" + group.getPostalCode())
+                .dateOfCreation(dtf.format(now))
                 .build();
         group.setEvents(Collections.singleton(e));
-        group.setDate(dtf.format(now));
         Group result = groupRepository.save(group);
 
         return ResponseEntity.created(new URI("/api/group/" + result.getId()))

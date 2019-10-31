@@ -14,7 +14,8 @@ class GroupEdit extends Component {
         stateOrProvince: '',
         country: '',
         postalCode: '',
-        alreadyVisited: ''
+        alreadyVisited: '',
+        anotherPerson: ''
     };
 
     constructor(props) {
@@ -94,7 +95,17 @@ class GroupEdit extends Component {
                         </FormGroup>
                         <FormGroup className="col-md-3 mb-3">
                             <Label for="postalCode">Postal Code</Label>
-                            <Input type="text" name="postalCode" id="postalCode" value={item.postalCode || ''}
+                            <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
+                                   onChange={this.handleChange} autoComplete="address-level1"/>
+                        </FormGroup>
+                        <FormGroup className="col-md-3 mb-3">
+                            <Label for="anotherPerson">Travel buddy</Label>
+                            <Input type="email" name="anotherPerson" id="anotherPerson" value={item.anotherPerson || ''}
+                                   onChange={this.handleChange} autoComplete="address-level1"/>
+                        </FormGroup>
+                        <FormGroup className="col-md-3 mb-3">
+                            <Label for="date">Travel date</Label>
+                            <Input type="date" name="date" id="date" value={item.date || ''}
                                    onChange={this.handleChange} autoComplete="address-level1"/>
                         </FormGroup>
                         <FormGroup className="col-md-3 mb-3">

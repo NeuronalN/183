@@ -50,12 +50,15 @@ class GroupList extends Component {
         const groupList = groups.map(group => {
             const address = `${group.city || ''} ${group.stateOrProvince || ''}`;
             const time = `${group.date}`;
+            const travelBuddy = `${group.anotherPerson}`;
             return <tr key={group.id}>
                 <td>{time}</td>
                 <td>{address}</td>
+                <td>{travelBuddy}</td>
                 <td>{group.events.map(event => {
-                    return <div key={event.id}> {event.title}</div>
+                    return <div key={event.id}> {event.dateOfCreation}</div>
                 })}</td>
+
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"/groups/" + group.id}>Edit</Button>
@@ -76,9 +79,10 @@ class GroupList extends Component {
                     <Table className="mt-4">
                         <thead>
                         <tr>
-                            <th width="20%">Creation Date</th>
+                            <th width="20%">Travel Date</th>
                             <th width="20%">Location</th>
-                            <th>Trip</th>
+                            <th>Travel Buddy</th>
+                            <th>Date of Creation</th>
                             <th width="10%">Actions</th>
                         </tr>
                         </thead>

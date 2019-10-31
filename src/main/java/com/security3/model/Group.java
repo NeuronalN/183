@@ -26,6 +26,7 @@ public class Group {
     private int postalCode;
     private boolean alreadyVisited;
     private String date;
+    private String anotherPerson;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
 
