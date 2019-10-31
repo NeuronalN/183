@@ -14,8 +14,7 @@ class GroupEdit extends Component {
         stateOrProvince: '',
         country: '',
         postalCode: '',
-        alreadyVisited: '',
-        title: ''
+        alreadyVisited: ''
     };
 
     constructor(props) {

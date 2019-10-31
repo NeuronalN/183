@@ -13,10 +13,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +24,8 @@ class GroupController {
     private final Logger log = LoggerFactory.getLogger(GroupController.class);
     private GroupRepository groupRepository;
     private UserRepository userRepository;
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    private LocalDateTime now = LocalDateTime.now();
 
     public GroupController(GroupRepository groupRepository, UserRepository userRepository) {
         this.groupRepository = groupRepository;
@@ -59,6 +60,7 @@ class GroupController {
                 .description("" + group.getPostalCode())
                 .build();
         group.setEvents(Collections.singleton(e));
+        group.setDate(dtf.format(now));
         Group result = groupRepository.save(group);
 
         return ResponseEntity.created(new URI("/api/group/" + result.getId()))
