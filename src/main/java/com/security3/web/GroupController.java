@@ -1,9 +1,6 @@
 package com.security3.web;
 
-import com.security3.model.Group;
-import com.security3.model.GroupRepository;
-import com.security3.model.User;
-import com.security3.model.UserRepository;
+import com.security3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -52,12 +50,17 @@ class GroupController {
         Map<String, Object> details = principal.getAttributes();
         String userId = details.get("sub").toString();
 
-        // check to see if user already exists
+        // check user
         Optional<User> user = userRepository.findById(userId);
         group.setUser(user.orElse(new User(userId,
                 details.get("name").toString(), details.get("email").toString())));
 
+        Event e = Event.builder().title(group.getCountry())
+                .description("" + group.getPostalCode())
+                .build();
+        group.setEvents(Collections.singleton(e));
         Group result = groupRepository.save(group);
+
         return ResponseEntity.created(new URI("/api/group/" + result.getId()))
                 .body(result);
     }

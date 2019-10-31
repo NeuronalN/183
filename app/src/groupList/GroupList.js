@@ -53,11 +53,7 @@ class GroupList extends Component {
                 <td style={{whiteSpace: 'nowrap'}}>{group.name}</td>
                 <td>{address}</td>
                 <td>{group.events.map(event => {
-                    return <div key={event.id}>{new Intl.DateTimeFormat('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: '2-digit'
-                    }).format(new Date(event.date))}: {event.title}</div>
+                    return <div key={event.id}> {event.title}</div>
                 })}</td>
                 <td>
                     <ButtonGroup>
