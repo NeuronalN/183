@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
-import {Button, Container, Form, FormGroup, Input, Label} from 'reactstrap';
+import {/*Link,*/ withRouter} from 'react-router-dom';
+//import {Button, Container,  FormGroup, Input, Label} from 'reactstrap';
+import {Container} from 'reactstrap';
+import {Form, FormGroup, Button} from 'react-bootstrap';
 import Navbar from '../navbar/Navbar';
 import {instanceOf} from 'prop-types';
 import {Cookies, withCookies} from 'react-cookie';
@@ -29,6 +31,20 @@ class GroupEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    /* formDefaults = {
+         city: { value: '', isValid: true, message: '' },
+         stateOrProvince: { value: '', isValid: true, message: '' },
+         country: { value: '', isValid: true, message: '' },
+         postalCode: { value: '', isValid: true, message: '' },
+         alreadyVisited: { value: '', isValid: true, message: '' },
+         anotherPerson: { value: '', isValid: true, message: '' }
+     }*/
+
+    /* state = {
+         ...this.formDefaults
+     };*/
+
+
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             try {
@@ -48,6 +64,7 @@ class GroupEdit extends Component {
         item[name] = value;
         this.setState({item});
     }
+
 
     async handleSubmit(event) {
         event.preventDefault();
@@ -75,49 +92,87 @@ class GroupEdit extends Component {
             <Navbar/>
             <Container>
                 {title}
-                <Form onSubmit={this.handleSubmit}>
+                <Form noValidate onSubmit={e => this.handleSubmit(e)}>
                     <FormGroup>
-                        <Label for="city">City</Label>
-                        <Input type="text" name="city" id="city" value={item.city || ''}
-                               onChange={this.handleChange} autoComplete="address-level1"/>
+                        <Form.Label>City</Form.Label>
+                        <Form.Control
+                            required
+                            name='city'
+                            type="text"
+                            placeholder="City"
+                            value={item.city || ''}
+                            onChange={this.handleChange}
+
+                        />
                     </FormGroup>
-                    <div className="row">
-                        <FormGroup className="col-md-4 mb-3">
-                            <Label for="stateOrProvince">State/Province</Label>
-                            <Input type="text" name="stateOrProvince" id="stateOrProvince"
-                                   value={item.stateOrProvince || ''}
-                                   onChange={this.handleChange} autoComplete="address-level1"/>
-                        </FormGroup>
-                        <FormGroup className="col-md-5 mb-3">
-                            <Label for="country">Country</Label>
-                            <Input type="text" name="country" id="country" value={item.country || ''}
-                                   onChange={this.handleChange} autoComplete="address-level1"/>
-                        </FormGroup>
-                        <FormGroup className="col-md-3 mb-3">
-                            <Label for="postalCode">Postal Code</Label>
-                            <Input type="number" name="postalCode" id="postalCode" value={item.postalCode || ''}
-                                   onChange={this.handleChange} autoComplete="address-level1"/>
-                        </FormGroup>
-                        <FormGroup className="col-md-3 mb-3">
-                            <Label for="anotherPerson">Travel buddy</Label>
-                            <Input type="email" name="anotherPerson" id="anotherPerson" value={item.anotherPerson || ''}
-                                   onChange={this.handleChange} autoComplete="address-level1"/>
-                        </FormGroup>
-                        <FormGroup className="col-md-3 mb-3">
-                            <Label for="date">Travel date</Label>
-                            <Input type="date" name="date" id="date" value={item.date || ''}
-                                   onChange={this.handleChange} autoComplete="address-level1"/>
-                        </FormGroup>
-                        <FormGroup className="col-md-3 mb-3">
-                            <Input type="checkbox" className="form-check-input" id="checkbox"
-                                   value={item.alreadyVisited}/>
-                            <Label className="form-check-label" htmlFor="checkbox">Already Visited</Label>
-                        </FormGroup>
-                    </div>
                     <FormGroup>
-                        <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/groups">Cancel</Button>
+                        <Form.Label>State / Province</Form.Label>
+                        <Form.Control
+                            required
+                            name='stateOrProvince'
+                            type="text"
+                            placeholder="State"
+                            value={item.stateOrProvince || ''}
+                            onChange={this.handleChange}
+
+                        />
                     </FormGroup>
+                    <FormGroup>
+                        <Form.Label>Country</Form.Label>
+                        <Form.Control
+                            required
+                            name='country'
+                            type="text"
+                            placeholder="Country"
+                            value={item.country || ''}
+                            onChange={this.handleChange}
+
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Label>PostalCode</Form.Label>
+                        <Form.Control
+                            type="number"
+                            name='postalCode'
+                            placeholder="PostalCode"
+                            value={item.postalCode || ''}
+                            onChange={this.handleChange}
+
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Label>Travel Buddy</Form.Label>
+                        <Form.Control
+                            type="email"
+                            name='anotherPerson'
+                            placeholder="TravelBuddy"
+                            value={item.anotherPerson || ''}
+                            onChange={this.handleChange}
+
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Label>Travel Date</Form.Label>
+                        <Form.Control
+                            required
+                            name='date'
+                            type="date"
+                            placeholder="TravelDate"
+                            value={item.date || ''}
+                            onChange={this.handleChange}
+                        />
+                    </FormGroup>
+                    <Form.Group>
+                        <Form.Check
+                            required
+                            name='alreadyVisited'
+                            label="Already visited"
+                            value={item.alreadyVisited || ''}
+                            onChange={this.handleChange}
+
+                        />
+                    </Form.Group>
+                    <Button type="submit">Submit form</Button>
                 </Form>
             </Container>
         </div>
