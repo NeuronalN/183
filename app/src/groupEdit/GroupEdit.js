@@ -41,11 +41,6 @@ class GroupEdit extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-
-
-
-
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             try {
@@ -65,17 +60,6 @@ class GroupEdit extends Component {
         item[name] = value;
         this.setState({item});
     }
-
-    /*  onChange = (e) => {
-          const state = {
-              ...this.state,
-              [e.target.name]: {
-                  ...this.state[e.target.name],
-                  value: e.target.value,
-              }
-          };
-          this.setState(state);
-      }*/
 
     async handleSubmit(event) {
         event.preventDefault();
@@ -121,7 +105,7 @@ class GroupEdit extends Component {
             item.postalCode = this.htmlEscape(item.postalCode.trim());
             item.anotherPerson = this.htmlEscape(item.anotherPerson.trim());
 
-            if (item.city.length > 3 && item.city.length <= 25 && item.city.match(Regex.CITY_REGEX)){
+            if (item.city.length >= 3 && item.city.length <= 25 && item.city.match(Regex.CITY_REGEX)) {
                 formDefaults.city.isValid = true;
             } else{
                 formDefaults.city.isValid = false;
@@ -129,7 +113,7 @@ class GroupEdit extends Component {
                 formDefaults.city.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
             }
 
-            if (item.stateOrProvince.length > 3 && item.stateOrProvince.length <= 25 && item.stateOrProvince.match(Regex.STATE_OR_PROVINCE_REGGEX)) {
+            if (item.stateOrProvince.length >= 3 && item.stateOrProvince.length <= 25 && item.stateOrProvince.match(Regex.STATE_OR_PROVINCE_REGGEX)) {
                 formDefaults.stateOrProvince.isValid = true;
             } else{
                 formDefaults.stateOrProvince.isValid = false;
@@ -144,7 +128,7 @@ class GroupEdit extends Component {
                 isValid = false;
                 formDefaults.country.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
             }
-            if (item.postalCode.length > 4 && item.postalCode.length <= 12 && item.postalCode.match(Regex.POSTALCODE_REGEX) ){
+            if (item.postalCode.length >= 4 && item.postalCode.length <= 12 && item.postalCode.match(Regex.POSTALCODE_REGEX)) {
                 formDefaults.postalCode.isValid = true;
             }else {
                 formDefaults.postalCode.isValid = false;
@@ -161,23 +145,28 @@ class GroupEdit extends Component {
 
             if (!isValid){
                 console.log(formDefaults);
+                console.log(this.state.formDefaults.stateOrProvince.message);
                 this.setState({
                     formDefaults
                 });
             }
             return isValid;
-
         }
 
     render() {
         const {item, formDefaults} = this.state;
         const title = <h2>{item.id ? 'Edit Group' : 'Add Group'}</h2>;
-        const cityClass = className({'Not valid': !formDefaults.city.isValid});
+        const cityClass = className({'is-invalid': !formDefaults.city.isValid});
+        const stateOrProvinceClass = className({'is-invalid': !formDefaults.stateOrProvince.isValid});
+        const countryClass = ({'is-invalid': !formDefaults.country.isValid});
+        const postalCodeClass = ({'is-invalid': !formDefaults.postalCode.isValid});
+        const anotherPersonClass = ({'is-invalid': !formDefaults.anotherPerson.isValid});
+
         return <div>
             <Navbar/>
             <Container>
                 {title}
-                <Form noValidate onSubmit={e => this.handleSubmit(e)}>
+                <Form onSubmit={e => this.handleSubmit(e)}>
                     <FormGroup>
                         <Form.Label>City</Form.Label>
                         <Form.Control
@@ -199,6 +188,7 @@ class GroupEdit extends Component {
                         <Form.Control
                             required
                             name='stateOrProvince'
+                            className={stateOrProvinceClass}
                             type="text"
                             placeholder="State"
                             value={item.stateOrProvince || ''}
@@ -214,6 +204,7 @@ class GroupEdit extends Component {
                         <Form.Control
                             required
                             name='country'
+                            className={countryClass}
                             type="text"
                             placeholder="Country"
                             value={item.country || ''}
@@ -227,12 +218,13 @@ class GroupEdit extends Component {
                     <FormGroup>
                         <Form.Label>PostalCode</Form.Label>
                         <Form.Control
+                            required
                             type="number"
                             name='postalCode'
+                            className={postalCodeClass}
                             placeholder="PostalCode"
                             value={item.postalCode || ''}
                             onChange={this.handleChange}
-
                         />
                         <Form.Control.Feedback type='invalid'>
                             {this.state.formDefaults.postalCode.message}
@@ -241,8 +233,10 @@ class GroupEdit extends Component {
                     <FormGroup>
                         <Form.Label>Travel Buddy</Form.Label>
                         <Form.Control
+                            required
                             type="email"
                             name='anotherPerson'
+                            className={anotherPersonClass}
                             placeholder="TravelBuddy"
                             value={item.anotherPerson || ''}
                             onChange={this.handleChange}
@@ -265,7 +259,6 @@ class GroupEdit extends Component {
                     </FormGroup>
                     <Form.Group>
                         <Form.Check
-                            required
                             name='alreadyVisited'
                             label="Already visited"
                             value={item.alreadyVisited || ''}
