@@ -28,7 +28,6 @@ class Initializer implements CommandLineRunner {
         Group djug = repository.findByName("Boston");
         Event e = Event.builder().title("Full Stack Reactive")
                 .description("Reactive with Spring Boot")
-                .date(Instant.parse("2019-10-28T09:48:00.000Z"))
                 .build();
         djug.setEvents(Collections.singleton(e));
         repository.save(djug);

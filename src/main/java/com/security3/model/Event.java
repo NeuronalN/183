@@ -24,6 +24,6 @@ public class Event {
     private String title;
     private String description;
     private String dateOfCreation;
-    @ManyToMany
-    private Set<User> attendees;
+    //@ManyToMany
+    // private Set<User> attendees;
 }

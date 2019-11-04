@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findAllByUserId(String id);
+
+
+    //Group findByName(String name);
 }
