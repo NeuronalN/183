@@ -6,7 +6,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -24,7 +23,6 @@ public class Group {
     private String stateOrProvince;
     private String country;
     private int postalCode;
-    private boolean alreadyVisited;
     private String date;
     private String anotherPerson;
     @ManyToOne(cascade = CascadeType.PERSIST)

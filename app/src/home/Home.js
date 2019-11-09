@@ -5,7 +5,11 @@ import {Link} from 'react-router-dom';
 import {Button, Container} from 'reactstrap';
 import {withCookies} from 'react-cookie';
 
-
+/**
+ * Shows the Home
+ *
+ * Author Brian Bernhauser
+ */
 class Home extends Component {
     state = {
         isLoading: true,
@@ -21,6 +25,7 @@ class Home extends Component {
         this.logout = this.logout.bind(this);
     }
 
+    // Will be called on Component call
     async componentDidMount() {
         const response = await fetch('/api/user', {credentials: 'include'});
         const body = await response.text();
@@ -31,6 +36,7 @@ class Home extends Component {
         }
     }
 
+    // Handles the Login
     login() {
         let port = (window.location.port ? ':' + window.location.port : '');
         if (port === ':3000') {
@@ -39,6 +45,7 @@ class Home extends Component {
         window.location.href = '//' + window.location.hostname + port + '/private';
     }
 
+    // Handels the Logout
     logout() {
         fetch('/api/logout', {
             method: 'POST', credentials: 'include',
@@ -50,6 +57,7 @@ class Home extends Component {
             });
     }
 
+    // Renders the Home
     render() {
         const message = this.state.user ?
             <h2>Welcome, {this.state.user.name}!</h2> :

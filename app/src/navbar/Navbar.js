@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
+/**
+ * Shows the Navigation
+ *
+ * Author Brian Bernhauser
+ */
 export default class AppNavbar extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +20,7 @@ export default class AppNavbar extends Component {
         });
     }
 
+    // Renders the Navigation
     render() {
         return <Navbar color="dark" dark expand="md">
             <NavbarBrand tag={Link} to="/">Home</NavbarBrand>

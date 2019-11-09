@@ -6,7 +6,11 @@ import GroupList from './groupList/GroupList';
 import GroupEdit from './groupEdit/GroupEdit';
 import {CookiesProvider} from 'react-cookie';
 
-
+/**
+ * Handles the router and paths
+ *
+ * Author Brian Bernhauser
+ */
 class App extends Component {
     render() {
         return (

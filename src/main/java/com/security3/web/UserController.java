@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * API for the User
+ *
+ * @author Brian Bernhauser
+ */
 @RestController
 public class UserController {
     private ClientRegistration registration;
@@ -23,6 +28,11 @@ public class UserController {
         this.registration = registrations.findByRegistrationId("okta");
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     @GetMapping("/api/user")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
@@ -32,6 +42,12 @@ public class UserController {
         }
     }
 
+    /**
+     *
+     * @param request
+     * @param idToken
+     * @return
+     */
     @PostMapping("/api/logout")
     public ResponseEntity<?> logout(HttpServletRequest request,
                                     @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) {

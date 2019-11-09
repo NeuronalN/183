@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -24,6 +23,5 @@ public class Event {
     private String title;
     private String description;
     private String dateOfCreation;
-    //@ManyToMany
-    // private Set<User> attendees;
+
 }

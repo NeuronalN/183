@@ -5,6 +5,11 @@ import {Link, withRouter} from 'react-router-dom';
 import {instanceOf} from 'prop-types';
 import {withCookies, Cookies} from 'react-cookie';
 
+/**
+ * Shows the List of Trips
+ *
+ * Author Brian Bernhauser
+ */
 class GroupList extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -17,6 +22,7 @@ class GroupList extends Component {
         this.remove = this.remove.bind(this);
     }
 
+    // Will be called on Component call
     componentDidMount() {
         this.setState({isLoading: true});
 
@@ -26,6 +32,7 @@ class GroupList extends Component {
             .catch(() => this.props.history.push('/'));
     }
 
+    // Will be called when a Trip is getting removed
     async remove(id) {
         await fetch(`/api/group/${id}`, {
             method: 'DELETE',
@@ -40,6 +47,8 @@ class GroupList extends Component {
             this.setState({groups: updatedGroups});
         });
     }
+
+    // Renders the Trip list
     render() {
         const {groups, isLoading} = this.state;
 

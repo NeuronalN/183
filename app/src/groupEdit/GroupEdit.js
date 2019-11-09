@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {/*Link,*/ withRouter} from 'react-router-dom';
-//import {Button, Container,  FormGroup, Input, Label} from 'reactstrap';
+import {withRouter} from 'react-router-dom';
 import {Container} from 'reactstrap';
 import {Form, FormGroup, Button} from 'react-bootstrap';
 import Navbar from '../navbar/Navbar';
@@ -9,6 +8,12 @@ import {Cookies, withCookies} from 'react-cookie';
 import className from 'classnames';
 
 import * as Regex from '../regex/Regex';
+
+/**
+ * Form for a Trip
+ *
+ * Author: Brian Bernhauser
+ */
 
 class GroupEdit extends Component {
     static propTypes = {
@@ -41,6 +46,8 @@ class GroupEdit extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    // Will be called on Component call
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             try {
@@ -52,6 +59,7 @@ class GroupEdit extends Component {
         }
     }
 
+    // Will be called when something changes
     handleChange(event) {
         const target = event.target;
         const value = target.value;
@@ -61,25 +69,27 @@ class GroupEdit extends Component {
         this.setState({item});
     }
 
+    // Will be called when the User submits the Form
     async handleSubmit(event) {
         event.preventDefault();
         if (this.formValidation()) {
-        const {item} = this.state;//.item
+            const {item} = this.state;//.item
 
-        await fetch('/api/group', {
-            method: (item.id) ? 'PUT' : 'POST',
-            headers: {
-                'X-XSRF-TOKEN': this.state.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item),
-            credentials: 'include'
-        });
-        this.props.history.push('/groups');
+            await fetch('/api/group', {
+                method: (item.id) ? 'PUT' : 'POST',
+                headers: {
+                    'X-XSRF-TOKEN': this.state.csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item),
+                credentials: 'include'
+            });
+            this.props.history.push('/groups');
         }
     }
 
+    // Escapes some HTML tags
     htmlEscape = text => {
         let map = {
             '&': '&amp;',
@@ -94,65 +104,70 @@ class GroupEdit extends Component {
     }
 
 
-        formValidation = () =>{
-            let item = {...this.state.item};
-            let formDefaults = {...this.state.formDefaults};
-            let isValid = true;
+    // Validates the whole Form
+    formValidation = () =>{
+        let item = {...this.state.item};
+        let formDefaults = {...this.state.formDefaults};
+        let isValid = true;
 
-            item.city = this.htmlEscape(item.city.trim());
-            item.stateOrProvince = this.htmlEscape(item.stateOrProvince .trim());
-            item.country = this.htmlEscape(item.country.trim());
-            item.postalCode = this.htmlEscape(item.postalCode.trim());
-            item.anotherPerson = this.htmlEscape(item.anotherPerson.trim());
+        // For HTML Escape
+        item.city = this.htmlEscape(item.city.trim());
+        item.stateOrProvince = this.htmlEscape(item.stateOrProvince .trim());
+        item.country = this.htmlEscape(item.country.trim());
+        item.postalCode = this.htmlEscape(item.postalCode.trim());
+        item.anotherPerson = this.htmlEscape(item.anotherPerson.trim());
 
-            if (item.city.length >= 3 && item.city.length <= 25 && item.city.match(Regex.CITY_REGEX)) {
-                formDefaults.city.isValid = true;
-            } else{
-                formDefaults.city.isValid = false;
-                isValid = false;
-                formDefaults.city.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
-            }
-
-            if (item.stateOrProvince.length >= 3 && item.stateOrProvince.length <= 25 && item.stateOrProvince.match(Regex.STATE_OR_PROVINCE_REGGEX)) {
-                formDefaults.stateOrProvince.isValid = true;
-            } else{
-                formDefaults.stateOrProvince.isValid = false;
-                isValid = false;
-                formDefaults.stateOrProvince.message = 'The State or Province name must be at least 3 characters long and cant be longer than 25 characters';
-            }
-
-            if (item.country.length >= 3 && item.country.length <= 25 && item.country.match(Regex.COUNTRY_REGEX)) {
-                formDefaults.country.isValid = true;
-            } else{
-                formDefaults.country.isValid = false;
-                isValid = false;
-                formDefaults.country.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
-            }
-            if (item.postalCode.length >= 4 && item.postalCode.length <= 12 && item.postalCode.match(Regex.POSTALCODE_REGEX)) {
-                formDefaults.postalCode.isValid = true;
-            }else {
-                formDefaults.postalCode.isValid = false;
-                isValid = false;
-                formDefaults.postalCode.message = 'The Post Code must be at least 4 numbers long an cant be longer than 12 numbers';
-            }
-            if (item.anotherPerson.match(Regex.ANOTHER_PERSON_REGEX)){
-                formDefaults.anotherPerson.isValid = true;
-            }else{
-                formDefaults.anotherPerson.isValid = false;
-                isValid = false;
-                formDefaults.anotherPerson.message = 'Must be a valid email adress';
-            }
-
-            if (!isValid){
-                console.log(formDefaults);
-                console.log(this.state.formDefaults.stateOrProvince.message);
-                this.setState({
-                    formDefaults
-                });
-            }
-            return isValid;
+        // Validates the City
+        if (item.city.length >= 3 && item.city.length <= 25 && item.city.match(Regex.CITY_REGEX)) {
+            formDefaults.city.isValid = true;
+        } else{
+            formDefaults.city.isValid = false;
+            isValid = false;
+            formDefaults.city.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
+        }
+        // Validates the Province
+        if (item.stateOrProvince.length >= 3 && item.stateOrProvince.length <= 25 && item.stateOrProvince.match(Regex.STATE_OR_PROVINCE_REGGEX)) {
+            formDefaults.stateOrProvince.isValid = true;
+        } else{
+            formDefaults.stateOrProvince.isValid = false;
+            isValid = false;
+            formDefaults.stateOrProvince.message = 'The State or Province name must be at least 3 characters long and cant be longer than 25 characters';
+        }
+        // Validates the Country
+        if (item.country.length >= 3 && item.country.length <= 25 && item.country.match(Regex.COUNTRY_REGEX)) {
+            formDefaults.country.isValid = true;
+        } else{
+            formDefaults.country.isValid = false;
+            isValid = false;
+            formDefaults.country.message = 'The City name must be at least 3 characters long and cant be longer than 25 characters';
+        }
+        // Validates the Postal Code
+        if (item.postalCode.length >= 4 && item.postalCode.length <= 12 && item.postalCode.match(Regex.POSTALCODE_REGEX)) {
+            formDefaults.postalCode.isValid = true;
+        }else {
+            formDefaults.postalCode.isValid = false;
+            isValid = false;
+            formDefaults.postalCode.message = 'The Post Code must be at least 4 numbers long an cant be longer than 12 numbers';
+        }
+        // Validates the Partner
+        if (item.anotherPerson.match(Regex.ANOTHER_PERSON_REGEX)){
+            formDefaults.anotherPerson.isValid = true;
+        }else{
+            formDefaults.anotherPerson.isValid = false;
+            isValid = false;
+            formDefaults.anotherPerson.message = 'Must be a valid email adress';
         }
 
+        // Set the errors
+        if (!isValid){
+            this.setState({
+                formDefaults
+            });
+        }
+        return isValid;
+    }
+
+    // renders the Messages for errors
     render() {
         const {item, formDefaults} = this.state;
         const title = <h2>{item.id ? 'Edit Group' : 'Add Group'}</h2>;
@@ -257,15 +272,6 @@ class GroupEdit extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <Form.Group>
-                        <Form.Check
-                            name='alreadyVisited'
-                            label="Already visited"
-                            value={item.alreadyVisited || ''}
-                            onChange={this.handleChange}
-
-                        />
-                    </Form.Group>
                     <Button type="submit">Submit form</Button>
                 </Form>
             </Container>

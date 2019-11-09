@@ -1,3 +1,4 @@
+// Regex for validation
 export const CITY_REGEX = "^[a-zA-Z]*$";
 export const STATE_OR_PROVINCE_REGGEX = "^[a-zA-Z]*$";
 export const COUNTRY_REGEX = "^[a-zA-Z]*$";

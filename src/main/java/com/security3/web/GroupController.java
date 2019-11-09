@@ -17,25 +17,47 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Api for the List data
+ *
+ * @author Brian Bernhauser
+ */
 @RestController
 @RequestMapping("/api")
 class GroupController {
+
 
     private final Logger log = LoggerFactory.getLogger(GroupController.class);
     private GroupRepository groupRepository;
     private UserRepository userRepository;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
+    /**
+     * Constructor
+     *
+     * @param groupRepository
+     * @param userRepository
+     */
     public GroupController(GroupRepository groupRepository, UserRepository userRepository) {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Maps all Groups
+     * @param principal
+     * @return
+     */
     @GetMapping("/groups")
     Collection<Group> groups(Principal principal) {
         return groupRepository.findAllByUserId(principal.getName());
     }
 
+    /**
+     * Maps a Group
+     * @param id
+     * @return
+     */
     @GetMapping("/group/{id}")
     ResponseEntity<?> getGroup(@PathVariable Long id) {
         Optional<Group> group = groupRepository.findById(id);
@@ -43,6 +65,13 @@ class GroupController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Creates a new Group
+     * @param group
+     * @param principal
+     * @return
+     * @throws URISyntaxException
+     */
     @PostMapping("/group")
     ResponseEntity<Group> createGroup(@Valid @RequestBody Group group,
                                       @AuthenticationPrincipal OAuth2User principal) throws URISyntaxException {
@@ -67,6 +96,11 @@ class GroupController {
                 .body(result);
     }
 
+    /**
+     * Updates a Group
+     * @param group
+     * @return
+     */
     @PutMapping("/group/{id}")
     ResponseEntity<Group> updateGroup(@Valid @RequestBody Group group) {
         log.info("Request to update group: {}", group);
@@ -74,6 +108,11 @@ class GroupController {
         return ResponseEntity.ok().body(result);
     }
 
+    /**
+     * Delets a Group
+     * @param id
+     * @return
+     */
     @DeleteMapping("/group/{id}")
     public ResponseEntity<?> deleteGroup(@PathVariable Long id) {
         log.info("Request to delete group: {}", id);
